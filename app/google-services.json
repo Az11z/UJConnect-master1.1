@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "553286291954",
+    "firebase_url": "https://ujconnect-55f4f.firebaseio.com",
+    "project_id": "ujconnect-55f4f",
+    "storage_bucket": "ujconnect-55f4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553286291954:android:4d17f490fe76efb8",
+        "android_client_info": {
+          "package_name": "com.example.customer.ujconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553286291954-gms8c5j3lcinb4knl75794v0tgeltl6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.customer.ujconnect",
+            "certificate_hash": "99eae2f2027e6c3c4f674a3a1f5b9e7197bbdeea"
+          }
+        },
+        {
+          "client_id": "553286291954-bpgquvbeg3keuutt5129qj554mfi035t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ8BA6ccF4utsyUl7RaIwKwP1fh4NpDas"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553286291954-bpgquvbeg3keuutt5129qj554mfi035t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
