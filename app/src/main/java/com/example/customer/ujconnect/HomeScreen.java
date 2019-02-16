@@ -36,7 +36,7 @@ public class HomeScreen extends AppCompatActivity {
     private EditText name;
     private EditText phone;
 
-    private TextView Signup;
+    private TextView Signup,fgtmypass;
 
     private AlertDialog closedialog1, closedialog2;
     private Context context;
@@ -57,8 +57,13 @@ public class HomeScreen extends AppCompatActivity {
         email = findViewById(R.id.ujEmail);
         password = findViewById(R.id.ujPassword);
         button = findViewById(R.id.connect);
-
+        fgtmypass =  findViewById(R.id.fgtmypass);
         context=this;
+
+
+
+
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +81,39 @@ public class HomeScreen extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
+
+
+
+
+
+    public void fgtPass(View v){
+
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        final String emailreset = email.getText().toString().trim() ;
+        String emailAddress = emailreset+"@uj.edu.sa";
+if (emailreset.isEmpty()){
+    Toast.makeText(HomeScreen.this, "enter your id", Toast.LENGTH_SHORT).show();
+
+}
+else
+        auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent.");
+                            Toast.makeText(HomeScreen.this, "Email sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+
+
+
 
     private void createAccount(){
         final String Email = emailReg.getText().toString().trim()+"@uj.edu.sa";
@@ -152,7 +190,7 @@ public class HomeScreen extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(HomeScreen.this, "success!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeScreen.this, "success! Please Check Your email", Toast.LENGTH_SHORT).show();
                             user.sendEmailVerification();
                             //updateUI(user);
                         } else {
@@ -201,11 +239,13 @@ public class HomeScreen extends AppCompatActivity {
                 .setPositiveButton("login", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String username =  email.getText().toString().trim()+"@uj.edu.sa";
+                        String user =  email.getText().toString().trim();
                         String Password = password.getText().toString().trim();
-
-
-
+                        String username =  user+"@uj.edu.sa";
+                        if (user.isEmpty()||Password.isEmpty()){
+                            Toast.makeText(HomeScreen.this, "Enter your id & Password", Toast.LENGTH_SHORT).show();
+                        }
+                        else
 
                         mAuth.signInWithEmailAndPassword(username, Password)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

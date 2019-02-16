@@ -40,8 +40,10 @@
         android:layout_marginLeft="36dp"
         android:layout_marginTop="156dp"
         android:text="@string/forgot_my_password"
-        android:textColor="#cbcbcb"
+        android:textColor="#0DAEBE"
         android:textSize="12sp"
+        android:onClick="fgtPass"
+        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,8 +57,8 @@
         android:layout_marginTop="72dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/example_uj_edu_sa"
-        android:inputType="textEmailAddress"
+        android:hint="Student ID"
+        android:inputType="number"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
