@@ -117,15 +117,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-
-
-
-
-
-
-
             // MY Menu Start from here , got it :)
 
         ImageView DepartmentIcon = findViewById(R.id.DepartmentIcon);

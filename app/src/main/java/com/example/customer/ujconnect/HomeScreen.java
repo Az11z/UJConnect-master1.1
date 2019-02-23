@@ -3,6 +3,7 @@ package com.example.customer.ujconnect;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -21,29 +22,28 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-
-
-
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class HomeScreen extends AppCompatActivity {
 
 
+    private static final String TAG = "HomeScreen";
     private Button button;
     private EditText email,emailReg;
     private EditText password,passwordReg;
     private EditText name;
     private EditText phone;
-
     private TextView Signup,fgtmypass;
-
     private AlertDialog closedialog1, closedialog2;
     private Context context;
-
     private FirebaseAuth mAuth;
-    private static final String TAG = "HomeScreen";
-
+    private DatabaseReference mDatabase;
 
 
 
@@ -187,11 +187,27 @@ else
 
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+
+
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser Curruser = mAuth.getCurrentUser();
                             Toast.makeText(HomeScreen.this, "success! Please Check Your email", Toast.LENGTH_SHORT).show();
-                            user.sendEmailVerification();
+                            Curruser.sendEmailVerification();
+
+                          //Store User info in DB
+                            String uid = Curruser.getUid();
+
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                            User user = new User(Name, Email,PhoneNumber);
+
+                            mDatabase.child("users").child(uid).setValue(user);
+
+
+
+
+
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -204,7 +220,6 @@ else
                         // ...
                     }
                 });
-
 
 
     }
@@ -223,6 +238,7 @@ else
         }
     }
 
+
     public void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
         LayoutInflater inflater = HomeScreen.this.getLayoutInflater();
@@ -230,18 +246,20 @@ else
         final View view = inflater.inflate(R.layout.login_dialog, null);
         Signup = view.findViewById(R.id.signuplabel);
 
-
-
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) { }})
                 .setPositiveButton("login", new DialogInterface.OnClickListener() {
+
+
+
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String user =  email.getText().toString().trim();
                         String Password = password.getText().toString().trim();
                         String username =  user+"@uj.edu.sa";
+                        FirebaseUser userid = FirebaseAuth.getInstance().getCurrentUser();
                         if (user.isEmpty()||Password.isEmpty()){
                             Toast.makeText(HomeScreen.this, "Enter your id & Password", Toast.LENGTH_SHORT).show();
                         }
@@ -255,7 +273,34 @@ else
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "signInWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            Toast.makeText(HomeScreen.this, "Welcome", Toast.LENGTH_SHORT).show();
+
+                                           // String name = "Welcome "+user.getDisplayName();
+
+
+                                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+                                            DatabaseReference uidRef = rootRef.child("users").child(uid);
+                                            ValueEventListener eventListener = new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    String Username = dataSnapshot.child("name").getValue(String.class);
+                                                    Toast.makeText(HomeScreen.this, "Welcome "+Username, Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {}
+                                            };
+                                            uidRef.addListenerForSingleValueEvent(eventListener);
+
+
+
+
+
+
+
+
+                                           // Toast.makeText(HomeScreen.this, Username, Toast.LENGTH_SHORT).show();
                                             if(user.isEmailVerified()){
                                                 updateUI(user);
 
@@ -307,8 +352,6 @@ else
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 createAccount();
-
-
 
                             }});
 // sign up builder

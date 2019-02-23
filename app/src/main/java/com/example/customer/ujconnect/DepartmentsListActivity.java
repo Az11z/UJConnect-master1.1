@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -110,7 +111,9 @@ public class DepartmentsListActivity extends AppCompatActivity
         person.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DepartmentsListActivity.this, "Hello it's working", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DepartmentsListActivity.this, "Goodbay", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(context,HomeScreen.class));
             }
         });
 
