@@ -111,7 +111,7 @@ public class DepartmentsListActivity extends AppCompatActivity
         person.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DepartmentsListActivity.this, "Goodbay", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DepartmentsListActivity.this, "Goodbye", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(context,HomeScreen.class));
             }

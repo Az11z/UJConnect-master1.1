@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         person.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Goodbay", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Goodbye", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(context,HomeScreen.class));
             }
