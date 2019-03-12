@@ -20,6 +20,11 @@
     <string name="title_activity_departments_list">DepartmentsList</string>
     <string name="title_activity_department_page">DepartmentPage</string>
     <string name="large_text">
+
+
+
+
+
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -109,4 +114,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
 
+
+
 </resources>
+

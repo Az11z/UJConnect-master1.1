@@ -13,7 +13,10 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class HomeScreen extends AppCompatActivity {
@@ -44,6 +51,9 @@ public class HomeScreen extends AppCompatActivity {
     private Context context;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private CheckBox userTypeBox;
+
+
 
 
 
@@ -120,6 +130,17 @@ else
         String Password = passwordReg.getText().toString().trim();
         final String Name = name.getText().toString().trim();
         final String PhoneNumber = phone.getText().toString().trim();
+        final String UserType;
+        if (userTypeBox.isChecked()){
+
+            UserType="Admin";
+        }
+        else {
+
+            UserType="Normal";
+        }
+
+
 
 
         name.requestFocus();
@@ -196,14 +217,21 @@ else
                             Toast.makeText(HomeScreen.this, "success! Please Check Your email", Toast.LENGTH_SHORT).show();
                             Curruser.sendEmailVerification();
 
+
                           //Store User info in DB
                             String uid = Curruser.getUid();
 
                             mDatabase = FirebaseDatabase.getInstance().getReference();
-                            User user = new User(Name, Email,PhoneNumber);
+                           Date RegDate = Calendar.getInstance().getTime();
+
+
+                            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                            String formattedDate = df.format(RegDate);
+
+
+                            User user = new User(Name, Email,PhoneNumber,UserType,formattedDate);
 
                             mDatabase.child("users").child(uid).setValue(user);
-
 
 
 
@@ -212,9 +240,12 @@ else
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "createUserWithEmail:failure", );
+
                             Toast.makeText(HomeScreen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             //  updateUI(null);
+
+
                         }
 
                         // ...
@@ -228,8 +259,23 @@ else
 
 
     private void updateUI(FirebaseUser user) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if (user != null) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference uidRef = rootRef.child("users").child(uid);
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String UserType = dataSnapshot.child("userType").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+
+
+
+        if (user != null && user.isEmailVerified()  ) {
             startActivity(new Intent(context,MainActivity.class));
 
 
@@ -330,6 +376,15 @@ else
 
                     }});
 
+
+        email = view.findViewById(R.id.ujEmail);
+        password = view.findViewById(R.id.ujPassword);
+
+        closedialog1 = builder.create();
+        closedialog1.show();
+
+
+
         Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -341,7 +396,29 @@ else
                 phone= view.findViewById(R.id.editText3);
                 emailReg= view.findViewById(R.id.ujcID);
                 passwordReg = view.findViewById(R.id.ujPassword2);
+                userTypeBox = view.findViewById(R.id.UsercheckBox);
                 TextView Login = view.findViewById(R.id.inactiveLogin);
+
+
+                userTypeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
+                        if ( isChecked )
+                        {
+                            name.setHint("Faculty or Deanship Name");
+                            emailReg.setHint("Email");
+                        } else{
+
+                            name.setHint("Full name");
+                            emailReg.setHint("Student id");
+                        }
+
+                    }
+                });
+
+
+
                 builder2.setView(view)
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
@@ -354,12 +431,13 @@ else
                                 createAccount();
 
                             }});
+
+
+
 // sign up builder
                 closedialog2 = builder2.create();
                 closedialog2.show();
-                closedialog1.dismiss();
-
-
+               closedialog1.dismiss();
 
 
 
@@ -381,11 +459,7 @@ else
 
 
 
-        email = view.findViewById(R.id.ujEmail);
-        password = view.findViewById(R.id.ujPassword);
 
-        closedialog1 = builder.create();
-        closedialog1.show();
 
 
 
