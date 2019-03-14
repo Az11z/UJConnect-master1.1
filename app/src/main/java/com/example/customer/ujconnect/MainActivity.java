@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity
     DatabaseReference myRef;
     ArrayList<ViewCardObject> t;
     Context context;
+    RecyclerView re;
+    NewsCardAdapter newsCardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +69,8 @@ public class MainActivity extends AppCompatActivity
         t = new ArrayList<>();
 
 
-        RecyclerView re = findViewById(R.id.rec);
-        final NewsCardAdapter newsCardAdapter = new NewsCardAdapter(this,t);
+        re = findViewById(R.id.rec);
+        newsCardAdapter = new NewsCardAdapter(this,t);
         re.setLayoutManager(new LinearLayoutManager(this));
         re.setAdapter(newsCardAdapter);
 
@@ -137,7 +140,28 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
         //My Menu End here , now i get it :)
+
+
+        RadioButton radioButton = findViewById(R.id.radioButton);
+
+        ArrayList<Course> courses = new ArrayList<>();
+        for(int i=0;i<20;i++){
+            courses.add(new Course());
+        }
+        final CourseCardAdapter courseCardAdapter = new CourseCardAdapter(this,courses);
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                re.setLayoutManager(new LinearLayoutManager(context));
+                re.setAdapter(courseCardAdapter);
+
+            }
+        });
+
 
 
     }
