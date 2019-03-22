@@ -1,11 +1,15 @@
 package com.example.customer.ujconnect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -30,8 +34,16 @@ public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
+        myViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,workshop_expanded.class);
+                intent.putExtra("courseArrayList",courseArrayList);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -41,8 +53,23 @@ public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
+
+        ConstraintLayout constraintLayout;
+        ImageView workshopImage;
+        ImageView departmentImage;
+        TextView title;
+        TextView postingDate;
+        TextView date;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            constraintLayout = itemView.findViewById(R.id.constraintLayout);
+            workshopImage = itemView.findViewById(R.id.workshopImage);
+            departmentImage = itemView.findViewById(R.id.departmentImage);
+            title = itemView.findViewById(R.id.title);
+            postingDate = itemView.findViewById(R.id.postingDate);
+            date = itemView.findViewById(R.id.date);
+            
         }
     }
 }

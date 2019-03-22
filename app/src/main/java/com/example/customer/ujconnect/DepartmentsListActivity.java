@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,8 @@ import java.util.ArrayList;
 public class DepartmentsListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawer;
+    RecyclerView Dep_view;
+    DepartmentCardAdapter Dep_adapter;
 
     Context context;
     @Override
@@ -71,15 +75,17 @@ public class DepartmentsListActivity extends AppCompatActivity
         myRef = database.getReference("Tweets").child("department");
 
 
-        final RecyclerView Dep_view = findViewById(R.id.DepRecycleID);
+        Dep_view = findViewById(R.id.DepRecycleID);
 
-        final DepartmentCardAdapter Dep_adapter = new DepartmentCardAdapter(this,departmentCardView);
+        Dep_adapter = new DepartmentCardAdapter(this,departmentCardView);
 
         Dep_view.setLayoutManager(new LinearLayoutManager(this));
 
         Dep_view.setAdapter(Dep_adapter);
 
-        myRef.addValueEventListener(new ValueEventListener() {
+
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -126,6 +132,7 @@ public class DepartmentsListActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context,DepartmentsListActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 
@@ -134,11 +141,21 @@ public class DepartmentsListActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                drawer.closeDrawer(GravityCompat.START);
+
             }
         });
 
-
-
+        ImageView workshop = findViewById(R.id.workshops_menu_icon);
+        workshop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity.class);
+                intent.putExtra("type","courses");
+                context.startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
         //My Menu End here , now i get it :)
 
 

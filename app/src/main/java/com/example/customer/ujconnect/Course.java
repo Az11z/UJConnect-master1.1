@@ -1,6 +1,9 @@
 package com.example.customer.ujconnect;
 
-public class Course {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Course implements Parcelable {
 
     String title;
     String urlToImage;
@@ -19,6 +22,26 @@ public class Course {
         this.date = date;
     }
 
+
+    protected Course(Parcel in) {
+        title = in.readString();
+        urlToImage = in.readString();
+        department = in.readString();
+        departmentImage = in.readString();
+        date = in.readString();
+    }
+
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -58,5 +81,19 @@ public class Course {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(urlToImage);
+        dest.writeString(department);
+        dest.writeString(departmentImage);
+        dest.writeString(date);
     }
 }

@@ -10,14 +10,6 @@
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_main">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/filter_cardview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/rec"
-        app:layout_anchorGravity="top" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec"
         android:layout_width="match_parent"

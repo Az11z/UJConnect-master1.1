@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gridLayout"
+    tools:context=".MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/common_google_signin_btn_text_light_default">
@@ -46,7 +47,7 @@
         app:srcCompat="@drawable/ic_news" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/workshops_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -108,7 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/workshops_menu_icon"
         app:layout_constraintVertical_bias="0.293"
         app:srcCompat="@drawable/ic_students_clubs" />
 
