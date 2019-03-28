@@ -8,10 +8,13 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
     <include
+        android:id="@+id/include0"
         layout="@layout/app_bar_user_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -26,5 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>

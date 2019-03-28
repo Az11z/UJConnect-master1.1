@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ public class CreateNewsActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
     Intent intent;
+    FrameLayout frameLayout;
+
 
 
     @Override
@@ -69,6 +72,37 @@ public class CreateNewsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+//        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
+//
+//        frameLayout = findViewById(R.id.view_account);
+//
+//        drop_down.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                frameLayout.animate().alpha(1).setDuration(1000).withStartAction(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        frameLayout.setVisibility(View.VISIBLE);
+//                    }
+//                });
+//            }
+//        });
+//
+//        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
+//        drop_down_blue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                frameLayout.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        frameLayout.setVisibility(View.GONE);
+//                    }
+//                });
+//            }
+//        });
+
 
 
 

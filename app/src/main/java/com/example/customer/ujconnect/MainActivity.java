@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity
     RecyclerView re;
     NewsCardAdapter newsCardAdapter;
     CourseCardAdapter courseCardAdapter;
+    FrameLayout frameLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +90,6 @@ public class MainActivity extends AppCompatActivity
 
         ImageView imageView=  findViewById(R.id.close_icon);
 
-        ImageView person = findViewById(R.id.person_image);
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -95,14 +99,28 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        person.setOnClickListener(new View.OnClickListener() {
+
+        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
+
+        frameLayout = findViewById(R.id.user_account_frame_layout);
+
+        drop_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Goodbye", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(context,HomeScreen.class));
+                frameLayout.setVisibility(View.VISIBLE);
             }
         });
+
+        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
+        drop_down_blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+
+
 
 
 
@@ -113,7 +131,7 @@ public class MainActivity extends AppCompatActivity
         DepartmentIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,DepartmentsListActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,DepartmentsListActivity.class));
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -122,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         ujlogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,MainActivity.class));
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -199,9 +217,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+        else {
+            super.onBackPressed();
+            return;
+        }
+
     }
 
     @Override

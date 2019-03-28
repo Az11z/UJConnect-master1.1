@@ -18,7 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class UserProfileActivity extends AppCompatActivity
     Context context;
     RecyclerView recyclerView;
     UserActivityAdapter userActivityAdapter;
+    FrameLayout frameLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,7 @@ public class UserProfileActivity extends AppCompatActivity
 
         ImageView imageView=  findViewById(R.id.close_icon);
 
-        ImageView person = findViewById(R.id.person_image);
+
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +71,7 @@ public class UserProfileActivity extends AppCompatActivity
             }
         });
 
-        person.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(UserProfileActivity.this, "Hello it's working", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
 
         // MY Menu Start from here , got it :)
@@ -101,7 +100,7 @@ public class UserProfileActivity extends AppCompatActivity
         ArrayList<UserActivityObject> activityObjects = new ArrayList<>();
 
         for (int i=0;i<20;i++){
-            activityObjects.add(new UserActivityObject());
+            activityObjects.add(new UserActivityObject("https://firebasestorage.googleapis.com/v0/b/ujconnect-55f4f.appspot.com/o/test.jpg?alt=media&token=b9ce1795-aa0e-4514-a201-1a47b759755f","This is only a test","Posted 3 days ago"));
         }
         recyclerView = findViewById(R.id.activity_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));

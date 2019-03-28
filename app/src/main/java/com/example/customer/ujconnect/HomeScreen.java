@@ -57,6 +57,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,13 +70,6 @@ public class HomeScreen extends AppCompatActivity {
         button = findViewById(R.id.connect);
         fgtmypass =  findViewById(R.id.fgtmypass);
         context=this;
-
-
-
-
-
-
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,7 +273,7 @@ else
                 public void onCancelled(DatabaseError databaseError) {}
             };
             startActivity(new Intent(context,MainActivity.class));
-
+            finish();
         } else {
 
 

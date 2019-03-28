@@ -7,6 +7,8 @@
     android:background="#292929"
     tools:context=".CreateNewsActivity">
 
+
+
     <TextView
         android:id="@+id/nameD4"
         android:layout_width="wrap_content"
@@ -65,10 +67,12 @@
                 app:layout_constraintTop_toTopOf="@+id/toolbar"
                 app:srcCompat="@drawable/ic_mainlogo" />
 
-            <ImageView
+            <include
                 android:id="@+id/person_image"
+                layout="@layout/account_pic_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                app:layout_behavior=""
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.958"
@@ -76,9 +80,13 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_person" />
 
+
         </android.support.constraint.ConstraintLayout>
 
     </android.support.design.widget.AppBarLayout>
+
+
+
 
     <TextView
         android:id="@+id/nameD3"
@@ -98,6 +106,10 @@
         app:layout_constraintStart_toEndOf="@+id/iconD"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.09" />
+
+
+
+
 
     <ImageView
         android:id="@+id/iconD3"
@@ -137,6 +149,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iconD3"
         app:layout_constraintVertical_bias="0.0" />
+
+
 
     <ImageView
         android:id="@+id/imageView12"
@@ -191,6 +205,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCompatCheckBox"
         app:layout_constraintVertical_bias="0.88" />
+
+
+
+    <!-- TODO: fix this view please -->
+    <FrameLayout
+        android:id="@+id/view_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <include
+            layout="@layout/account_menu_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            tools:itemCount="1"
+            tools:listitem="@layout/account_menu_cardview" />
+    </FrameLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

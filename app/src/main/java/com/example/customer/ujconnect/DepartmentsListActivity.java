@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class DepartmentsListActivity extends AppCompatActivity
     DrawerLayout drawer;
     RecyclerView Dep_view;
     DepartmentCardAdapter Dep_adapter;
+    FrameLayout frameLayout;
 
     Context context;
     @Override
@@ -104,7 +106,7 @@ public class DepartmentsListActivity extends AppCompatActivity
 
         ImageView imageView=  findViewById(R.id.close_icon);
 
-        ImageView person = findViewById(R.id.person_image);
+
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -114,14 +116,28 @@ public class DepartmentsListActivity extends AppCompatActivity
             }
         });
 
-        person.setOnClickListener(new View.OnClickListener() {
+
+
+        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
+
+        frameLayout = findViewById(R.id.user_account_frame_layout);
+
+        drop_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DepartmentsListActivity.this, "Goodbye", Toast.LENGTH_SHORT).show();
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(context,HomeScreen.class));
+                frameLayout.setVisibility(View.VISIBLE);
             }
         });
+
+        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
+        drop_down_blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+
 
 
 

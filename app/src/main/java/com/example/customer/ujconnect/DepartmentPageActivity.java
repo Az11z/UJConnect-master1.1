@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
     DatabaseReference myRef;
     ArrayList<ViewCardObject> t;
     NewsCardAdapter newsCardAdapter;
+    FrameLayout frameLayout;
+
 
     Context context;
     @Override
@@ -66,20 +69,13 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
         ImageView imageView=  findViewById(R.id.close_icon);
 
-        ImageView person = findViewById(R.id.person_image);
+
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
-            }
-        });
-
-        person.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DepartmentPageActivity.this, "Hello it's working", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -132,6 +128,25 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
             }
         });
 
+
+        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
+
+        frameLayout = findViewById(R.id.view_account);
+
+        drop_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
+        drop_down_blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
 
 
 

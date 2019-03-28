@@ -2,12 +2,13 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="270dp"
+    android:id="@+id/constraintLayout"
+    android:layout_width="240dp"
     android:layout_height="210dp"
     android:background="#292929">
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/activity_image"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginStart="8dp"
@@ -26,7 +27,7 @@
         app:srcCompat="@mipmap/ic_launcher" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/activity_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,14 +38,14 @@
         android:textColor="@android:color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imageView10"
+        app:layout_constraintEnd_toEndOf="@+id/activity_image"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="@+id/imageView10"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10"
+        app:layout_constraintStart_toStartOf="@+id/activity_image"
+        app:layout_constraintTop_toBottomOf="@+id/activity_image"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/acitivity_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -52,9 +53,9 @@
         android:text="Posted 4 days ago"
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="@+id/activity_name"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/activity_name"
+        app:layout_constraintTop_toBottomOf="@+id/activity_name"
         app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
