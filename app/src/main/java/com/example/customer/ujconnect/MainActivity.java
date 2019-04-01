@@ -20,16 +20,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.AuthProvider;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -43,6 +49,10 @@ public class MainActivity extends AppCompatActivity
     NewsCardAdapter newsCardAdapter;
     CourseCardAdapter courseCardAdapter;
     FrameLayout frameLayout;
+    FirebaseAuth firebaseAuth;
+
+
+
 
 
 
@@ -53,6 +63,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+
 
 
         context = this;
@@ -77,6 +91,9 @@ public class MainActivity extends AppCompatActivity
 
         t = new ArrayList<>();
 
+        for(int i=0;i<10;i++){
+            t.add(new ViewCardObject());
+        }
 
         re = findViewById(R.id.rec);
         re.setLayoutManager(new LinearLayoutManager(this));
@@ -121,6 +138,48 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        //profile items VVVVVVVV
+
+        TextView profile = findViewById(R.id.profile_menu_item);
+        TextView accountSettings = findViewById(R.id.account_settings_menu_item);
+        TextView logout = findViewById(R.id.log_out_menu_item);
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserProfileActivity.class));
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance().signOut(context).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(context,HomeScreen.class));
+                        finish();
+                    }
+                });
+            }
+
+        });
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
+
+
+        //end of profile items ^^^^^^
+
+
+
+
+
 
 
 
@@ -158,6 +217,23 @@ public class MainActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
+        ImageView ujMenuIcon = findViewById(R.id.uj_menu_icon);
+        ujMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        ImageView newsMenuIcon = findViewById(R.id.news_menu_icon);
+        newsMenuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                re.setAdapter(newsCardAdapter);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
         //My Menu End here , now i get it :)
 
 

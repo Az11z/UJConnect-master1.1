@@ -8,10 +8,28 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
+
     <include
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/user_account_frame_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:visibility="gone">
+        <include
+            android:id="@+id/recycler_view_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            tools:itemCount="1"
+            layout="@layout/account_menu_cardview"
+            tools:listitem="@layout/account_menu_cardview" />
+    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -30,21 +48,6 @@
     </android.support.design.widget.NavigationView>
 
 
-    <FrameLayout
-        android:id="@+id/user_account_frame_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:visibility="gone">
-        <include
-            android:id="@+id/recycler_view_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchorGravity="end|top"
-            android:layout_gravity="end"
-            tools:itemCount="1"
-            layout="@layout/account_menu_cardview"
-            tools:listitem="@layout/account_menu_cardview" />
-    </FrameLayout>
+
 
 </android.support.v4.widget.DrawerLayout>

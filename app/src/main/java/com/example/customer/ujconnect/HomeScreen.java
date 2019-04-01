@@ -85,6 +85,7 @@ public class HomeScreen extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null) {
+            System.out.println(currentUser.getEmail());
             updateUI(currentUser);
         }
     }
@@ -274,9 +275,6 @@ else
             };
             startActivity(new Intent(context,MainActivity.class));
             finish();
-        } else {
-
-
         }
     }
 

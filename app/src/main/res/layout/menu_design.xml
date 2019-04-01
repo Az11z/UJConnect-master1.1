@@ -29,12 +29,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.21"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/uj_menu_icon"
         app:layout_constraintVertical_bias="0.1"
         app:srcCompat="@drawable/ic_faculty" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/news_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toEndOf="@+id/DepartmentIcon"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
+        app:layout_constraintTop_toBottomOf="@+id/uj_menu_icon"
         app:layout_constraintVertical_bias=".12"
         app:srcCompat="@drawable/ic_news" />
 
@@ -56,13 +56,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toEndOf="@+id/contests_menu_icon"
+        app:layout_constraintTop_toBottomOf="@+id/news_menu_icon"
         app:layout_constraintVertical_bias="0.083"
         app:srcCompat="@drawable/ic_workshops" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/contests_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
@@ -75,7 +75,7 @@
         app:srcCompat="@drawable/ic_contests" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/uj_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -88,7 +88,7 @@
         app:srcCompat="@drawable/ic_mainlogo" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/programs_menu_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
@@ -96,19 +96,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.211"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/contests_menu_icon"
         app:layout_constraintVertical_bias="0.293"
         app:srcCompat="@drawable/ic_programs" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/students_clubs_meun_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/programs_menu_icon"
         app:layout_constraintTop_toBottomOf="@+id/workshops_menu_icon"
         app:layout_constraintVertical_bias="0.293"
         app:srcCompat="@drawable/ic_students_clubs" />

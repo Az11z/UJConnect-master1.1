@@ -80,7 +80,7 @@ public class UserProfileActivity extends AppCompatActivity
         DepartmentIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,DepartmentsListActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,DepartmentsListActivity.class));
             }
         });
 
@@ -88,7 +88,7 @@ public class UserProfileActivity extends AppCompatActivity
         ujlogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,MainActivity.class));
             }
         });
 
@@ -110,6 +110,15 @@ public class UserProfileActivity extends AppCompatActivity
 
 
 
+
+        ImageView settings = findViewById(R.id.user_profile_settings_icon);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
 
 
 
