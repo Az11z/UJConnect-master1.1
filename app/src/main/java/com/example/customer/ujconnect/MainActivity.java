@@ -172,8 +172,6 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(context,UserSettingsActivity.class));
             }
         });
-
-
         //end of profile items ^^^^^^
 
 
