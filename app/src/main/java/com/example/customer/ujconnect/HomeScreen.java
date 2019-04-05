@@ -54,10 +54,6 @@ public class HomeScreen extends AppCompatActivity {
     private CheckBox userTypeBox;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -216,7 +212,7 @@ else
                             Curruser.sendEmailVerification();
 
 
-                          //Store User info in DB
+                          //Store User info in Firebase
                             String uid = Curruser.getUid();
 
                             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -232,27 +228,15 @@ else
                             mDatabase.child("users").child(uid).setValue(user);
 
 
-
-
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "createUserWithEmail:failure", );
 
                             Toast.makeText(HomeScreen.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //  updateUI(null);
-
-
                         }
-
-                        // ...
                     }
                 });
-
-
     }
-
 
 
 
@@ -286,6 +270,8 @@ else
         final View view = inflater.inflate(R.layout.login_dialog, null);
         Signup = view.findViewById(R.id.signuplabel);
 
+
+        //login dialog
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -336,11 +322,6 @@ else
 
 
 
-
-
-
-
-                                           // Toast.makeText(HomeScreen.this, Username, Toast.LENGTH_SHORT).show();
                                             if(user.isEmailVerified()){
                                                 updateUI(user);
 
@@ -353,21 +334,14 @@ else
                                             Toast.makeText(HomeScreen.this, "Authentication failed.",
                                                     Toast.LENGTH_SHORT).show();
 
-
-
                                             updateUI(null);
                                         }
 
                                         // [START_EXCLUDE]
                                         if (!task.isSuccessful()) {
-
-
-
                                         }
-
                                     }
                                 });
-
                     }});
 
 
@@ -386,6 +360,7 @@ else
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(HomeScreen.this);
                 LayoutInflater inflater = HomeScreen.this.getLayoutInflater();
                 View view = inflater.inflate(R.layout.sign_up_dialog, null);
+                //signup
                 name=  view.findViewById(R.id.studentName);
                 phone= view.findViewById(R.id.editText3);
                 emailReg= view.findViewById(R.id.ujcID);
@@ -412,7 +387,7 @@ else
                 });
 
 
-
+                // signup dialog
                 builder2.setView(view)
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
@@ -429,12 +404,10 @@ else
 
 
 // sign up builder
+                // one dialog close and the other one opens
                 closedialog2 = builder2.create();
                 closedialog2.show();
                closedialog1.dismiss();
-
-
-
 
                 Login.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -447,15 +420,8 @@ else
 
 
 
-
             }
         });
-
-
-
-
-
-
 
 
     }

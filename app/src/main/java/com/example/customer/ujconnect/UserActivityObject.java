@@ -2,12 +2,15 @@ package com.example.customer.ujconnect;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.TextView;
+
 
 public class UserActivityObject implements Parcelable {
 
     private String image;
     private String title;
     private String date;
+
 
 
     public UserActivityObject() {
@@ -46,6 +49,7 @@ public class UserActivityObject implements Parcelable {
     }
 
     public String getTitle() {
+
         return title;
     }
 

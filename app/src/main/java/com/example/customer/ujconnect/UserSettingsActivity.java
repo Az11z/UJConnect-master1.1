@@ -26,13 +26,19 @@ public class UserSettingsActivity extends AppCompatActivity {
         final TextView phoneNmuber = findViewById(R.id.user_phone_number_settings);
         final TextView email = findViewById(R.id.email_user_settings);
 
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child("hiWCzzp1RVPobgW55FDuiSw9jgG2");
+        String firebaseUserUid = firebaseUser.getUid();
+
+        //find current user uid
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseUserUid);
 
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 userName.setText(dataSnapshot.child("name").getValue(String.class));
                 faculty.setText("FCIT");
                 year.setText("2014");

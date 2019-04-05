@@ -8,7 +8,7 @@
     tools:context=".UserSettingsActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/Settings_close"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
