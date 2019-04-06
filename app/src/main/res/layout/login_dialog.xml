@@ -39,11 +39,11 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="156dp"
+        android:clickable="true"
+        android:onClick="fgtPass"
         android:text="@string/forgot_my_password"
         android:textColor="#0DAEBE"
         android:textSize="12sp"
-        android:onClick="fgtPass"
-        android:clickable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

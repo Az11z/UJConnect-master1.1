@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -40,6 +41,9 @@ public class CreateNewsActivity extends AppCompatActivity {
          intent  = getIntent();
 
         WriteNews = findViewById(R.id.WriteNews);
+        if(WriteNews.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
         SubmitNews = findViewById(R.id.SubminNews);
         dep_name = findViewById(R.id.nameD4);
         dep_icon = findViewById(R.id.iconD3);
@@ -67,41 +71,41 @@ public class CreateNewsActivity extends AppCompatActivity {
         SubmitNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep")).child(database.getReference().push().getKey());
-                myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),intent.getStringExtra("dep"),formattedDate,"0",3));
+                myRef = database.getReference("Tweets").child("department").child().child(database.getReference().push().getKey());
+                myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
                 finish();
             }
         });
 
 
-//        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
-//
-//        frameLayout = findViewById(R.id.view_account);
-//
-//        drop_down.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                frameLayout.animate().alpha(1).setDuration(1000).withStartAction(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        frameLayout.setVisibility(View.VISIBLE);
-//                    }
-//                });
-//            }
-//        });
-//
-//        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
-//        drop_down_blue.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                frameLayout.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        frameLayout.setVisibility(View.GONE);
-//                    }
-//                });
-//            }
-//        });
+        ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
+
+        frameLayout = findViewById(R.id.view_account);
+
+        drop_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.animate().alpha(1).setDuration(1000).withStartAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameLayout.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        ImageView drop_down_blue = findViewById(R.id.drop_down_icon_blue);
+        drop_down_blue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                frameLayout.animate().alpha(0).setDuration(1000).withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameLayout.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
 
 
 

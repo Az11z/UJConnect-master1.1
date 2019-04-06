@@ -15,16 +15,17 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UserSettingsActivity extends AppCompatActivity {
 
-    @Override
+    TextView userName ;
+    TextView phoneNmuber;
+    TextView email;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
 
-        final TextView userName = findViewById(R.id.user_name_settings);
-        final TextView faculty = findViewById(R.id.faculty_settings);
-        final TextView year = findViewById(R.id.year_settings);
-        final TextView phoneNmuber = findViewById(R.id.user_phone_number_settings);
-        final TextView email = findViewById(R.id.email_user_settings);
+         userName = findViewById(R.id.user_name_settings);
+         phoneNmuber = findViewById(R.id.user_phone_number_settings);
+         email = findViewById(R.id.email_user_settings);
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child("hiWCzzp1RVPobgW55FDuiSw9jgG2");
@@ -34,11 +35,8 @@ public class UserSettingsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userName.setText(dataSnapshot.child("name").getValue(String.class));
-                faculty.setText("FCIT");
-                year.setText("2014");
                 phoneNmuber.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
                 email.setText(dataSnapshot.child("email").getValue(String.class));
-
             }
 
             @Override

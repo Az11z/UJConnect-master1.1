@@ -40,8 +40,12 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
     NewsCardAdapter newsCardAdapter;
     FrameLayout frameLayout;
 
-
+    ImageView add_button;
+    ImageView add_news ;
+    ImageView add_event ;
+    ImageView add_workshops;
     Context context;
+    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +55,8 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         setSupportActionBar(toolbar);
         context = this;
         final Intent intent  = getIntent();
+
+
 
         Display display = getWindowManager(). getDefaultDisplay();
         Point size = new Point();
@@ -84,7 +90,7 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
         database = FirebaseDatabase.getInstance();
 
-        myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep"));
+//        myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep"));
 
         t = new ArrayList<>();
 
@@ -97,36 +103,36 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
 
 
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
-                    t.add(0,x);
-                    newsCardAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        myRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
+//                    t.add(0,x);
+//                    newsCardAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
         ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
@@ -159,7 +165,8 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         DepartmentIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,DepartmentsListActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,DepartmentsListActivity.class));
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
 
@@ -167,12 +174,32 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         ujlogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,MainActivity.class));
+                drawer.closeDrawer(GravityCompat.START);
+
             }
         });
 
+        ImageView workshop = findViewById(R.id.workshops_menu_icon);
+        workshop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity.class);
+                intent.putExtra("type","courses");
+                context.startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
 
-
+        ImageView news = findViewById(R.id.news_menu_icon);
+        news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity.class);
+                context.startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
         //My Menu End here , now i get it :)
 
 
@@ -184,6 +211,54 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
                 intent1.putExtra("dep",intent.getStringExtra("dep"));
                 intent1.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                 startActivity(intent1);
+            }
+        });
+
+
+
+
+
+
+         add_button = findViewById(R.id.add_button);
+         add_news = findViewById(R.id.add_news_button);
+         add_event = findViewById(R.id.add_event_button);
+         add_workshops = findViewById(R.id.add_workshops_button);
+
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (count == 0) {
+                    add_news.animate().translationX(-250).start();
+                    add_event.animate().translationX(-500).start();
+                    add_workshops.animate().translationX(-750).start();
+                    add_button.setImageResource(R.drawable.ic_cancel_button);
+                    count++;
+                }
+                else{
+                    add_news.animate().translationX(0).start();
+                    add_event.animate().translationX(0).start();
+                    add_workshops.animate().translationX(0).start();
+                    add_button.setImageResource(R.drawable.ic_add_button);
+                    count=0;
+                }
+            }
+        });
+
+        add_news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_news.animate().translationX(0).start();
+                add_event.animate().translationX(0).start();
+                add_workshops.animate().translationX(0).withStartAction(new Runnable() {
+                    @Override
+                    public void run() {
+                        add_button.setImageResource(R.drawable.ic_add_button);
+                        count=0;
+                        startActivity(new Intent(context,CreateNewsActivity.class));
+                    }
+                });
+
+
             }
         });
 

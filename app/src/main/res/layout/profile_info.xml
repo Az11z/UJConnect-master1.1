@@ -60,5 +60,18 @@
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_follow_blue" />
+        app:srcCompat="@drawable/ic_settings" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="2dp"
+        android:text="Settings"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="@+id/user_profile_settings_icon"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_settings_icon"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_settings_icon"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_settings_icon" />
 </android.support.constraint.ConstraintLayout>

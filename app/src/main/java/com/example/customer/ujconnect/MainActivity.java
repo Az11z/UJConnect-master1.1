@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -29,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,10 +46,11 @@ public class MainActivity extends AppCompatActivity
     FirebaseDatabase database;
     DatabaseReference myRef;
     ArrayList<ViewCardObject> t;
+    ArrayList<WorkShopDetails> workShopDetails;
     Context context;
     RecyclerView re;
     NewsCardAdapter newsCardAdapter;
-    CourseCardAdapter courseCardAdapter;
+    WorkshopsAdapter workshopsAdapter;
     FrameLayout frameLayout;
     FirebaseAuth firebaseAuth;
 
@@ -86,17 +89,81 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Tweets").child("department").child("CCIT");
-
         t = new ArrayList<>();
-
-        for(int i=0;i<10;i++){
-            t.add(new ViewCardObject());
-        }
-
         re = findViewById(R.id.rec);
         re.setLayoutManager(new LinearLayoutManager(this));
+        newsCardAdapter = new NewsCardAdapter(this,t);
+        re.setAdapter(newsCardAdapter);
+        workShopDetails = new ArrayList<>();
+        workshopsAdapter = new WorkshopsAdapter(this,workShopDetails);
+
+
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Tweets").child("department");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot1, @Nullable String s) {
+                    for(DataSnapshot snapshot : snapshot1.getChildren()) {
+                        ViewCardObject viewCardObject = snapshot.getValue(ViewCardObject.class);
+                        t.add(viewCardObject);
+                        newsCardAdapter.notifyDataSetChanged();
+                    }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        myRef = database.getReference("Workshops").child("department");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+                    WorkShopDetails workShopDetails1 = snapshot.getValue(WorkShopDetails.class);
+                System.out.println(workShopDetails1.getTitle());
+                    workShopDetails.add(workShopDetails1);
+                    workshopsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
 
 
@@ -206,12 +273,8 @@ public class MainActivity extends AppCompatActivity
         workshop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Course> courses = new ArrayList<>();
-                for(int i=0;i<20;i++){
-                    courses.add(new Course());
-                }
-                courseCardAdapter = new CourseCardAdapter(re.getContext(),courses);
-                re.setAdapter(courseCardAdapter);
+                re.setAdapter(workshopsAdapter);
+                workshopsAdapter.notifyDataSetChanged();
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -235,46 +298,9 @@ public class MainActivity extends AppCompatActivity
         //My Menu End here , now i get it :)
 
 
-        Intent intent = getIntent();
-
-        String x = intent.getStringExtra("type");
 
 
 
-
-        if(x!=null && x.equals("courses")){
-            ArrayList<Course> courses = new ArrayList<>();
-            for(int i=0;i<20;i++){
-                courses.add(new Course());
-            }
-            courseCardAdapter = new CourseCardAdapter(re.getContext(),courses);
-            re.setAdapter(courseCardAdapter);
-        }
-
-        else{
-
-            newsCardAdapter = new NewsCardAdapter(this,t);
-            re.setAdapter(newsCardAdapter);
-
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        ViewCardObject x = snapshot.getValue(ViewCardObject.class);
-                        t.add(x);
-                        newsCardAdapter.notifyDataSetChanged();
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-
-            });
-
-        }
 
 
 
@@ -283,6 +309,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
 
 
 

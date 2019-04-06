@@ -3,6 +3,7 @@ package com.example.customer.ujconnect;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,6 +42,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
     private static final String TAG = "HomeScreen";
+    static boolean admin = false;
     private Button button;
     private EditText email,emailReg;
     private EditText password,passwordReg;
@@ -51,7 +53,8 @@ public class HomeScreen extends AppCompatActivity {
     private Context context;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    private CheckBox userTypeBox;
+    private TextView admin_login ;
+    private CheckBox checkBox ;
 
 
 
@@ -128,15 +131,7 @@ else
         String Password = passwordReg.getText().toString().trim();
         final String Name = name.getText().toString().trim();
         final String PhoneNumber = phone.getText().toString().trim();
-        final String UserType;
-        if (userTypeBox.isChecked()){
 
-            UserType="Admin";
-        }
-        else {
-
-            UserType="Normal";
-        }
 
 
 
@@ -227,9 +222,10 @@ else
                             String formattedDate = df.format(RegDate);
 
 
-                            User user = new User(Name, Email,PhoneNumber,UserType,formattedDate);
+                            User user = new User(Name, Email,PhoneNumber,formattedDate,false);
+                            user.setFirebase_id(Curruser.getUid());
 
-                            mDatabase.child("users").child(uid).setValue(user);
+                            mDatabase.child("users").child(Email.split("@")[0]).setValue(user);
 
 
 
@@ -258,21 +254,21 @@ else
 
     private void updateUI(FirebaseUser user) {
 
-        if (user != null && user.isEmailVerified()  ) {
-
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference uidRef = rootRef.child("users").child(uid);
-            ValueEventListener eventListener = new ValueEventListener() {
+        if (user != null && user.isEmailVerified() && user.getEmail()!=null  ) {
+            FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String UserType = dataSnapshot.child("userType").getValue(String.class);
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.child("admin").getValue(boolean.class)){
+                        admin = true;
+                    }
+
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {}
-            };
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
             startActivity(new Intent(context,MainActivity.class));
             finish();
         }
@@ -283,8 +279,10 @@ else
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreen.this);
         LayoutInflater inflater = HomeScreen.this.getLayoutInflater();
         final View view1 = inflater.inflate(R.layout.sign_up_dialog, null);
+        view1.setBackground(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         final View view = inflater.inflate(R.layout.login_dialog, null);
         Signup = view.findViewById(R.id.signuplabel);
+
 
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -325,7 +323,6 @@ else
                                                 @Override
                                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                                     String Username = dataSnapshot.child("name").getValue(String.class);
-                                                    Toast.makeText(HomeScreen.this, "Welcome "+Username, Toast.LENGTH_SHORT).show();
                                                 }
 
                                                 @Override
@@ -374,6 +371,7 @@ else
         email = view.findViewById(R.id.ujEmail);
         password = view.findViewById(R.id.ujPassword);
 
+
         closedialog1 = builder.create();
         closedialog1.show();
 
@@ -390,26 +388,13 @@ else
                 phone= view.findViewById(R.id.editText3);
                 emailReg= view.findViewById(R.id.ujcID);
                 passwordReg = view.findViewById(R.id.ujPassword2);
-                userTypeBox = view.findViewById(R.id.UsercheckBox);
                 TextView Login = view.findViewById(R.id.inactiveLogin);
 
 
-                userTypeBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
-                {
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-                    {
-                        if ( isChecked )
-                        {
-                            name.setHint("Faculty or Deanship Name");
-                            emailReg.setHint("Email");
-                        } else{
 
-                            name.setHint("Full name");
-                            emailReg.setHint("Student id");
-                        }
 
-                    }
-                });
+
+
 
 
 

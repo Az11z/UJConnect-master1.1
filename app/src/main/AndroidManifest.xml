@@ -10,37 +10,49 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="testname"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UserSettingsActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".CreateWorkshopActivity">
 
         </activity>
+        <activity android:name=".AttendenceActivity">
+
+        </activity>
+        <activity
+            android:name=".UserSettingsActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".UserProfileActivity"
             android:label="@string/title_activity_user_profile"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".workshop_expanded"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomeScreen"
             android:launchMode="singleTask"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
         </activity>
@@ -48,15 +60,18 @@
             android:name=".DepartmentsListActivity"
             android:label="@string/title_activity_departments_list"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".DepartmentPageActivity"
             android:label="@string/title_activity_department_page"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".CreateNewsActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
