@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
-public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.MyViewHolder> {
+public class WorkshopsAdapter extends RecyclerView.Adapter<WorkshopsAdapter.MyViewHolder> {
 
-    Context context;
-    ArrayList<Course> courseArrayList;
+    private Context context;
+    private ArrayList<WorkShopDetails> workShopDetails;
 
-    public CourseCardAdapter(Context context, ArrayList<Course> courseArrayList) {
+    public WorkshopsAdapter(Context context, ArrayList<WorkShopDetails> workShopDetails) {
         this.context = context;
-        this.courseArrayList = courseArrayList;
+        this.workShopDetails = workShopDetails;
     }
 
     @NonNull
@@ -29,30 +31,37 @@ public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.My
         View view;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         view = layoutInflater.inflate(R.layout.workshop_cardview,viewGroup,false);
-        return new MyViewHolder(view);
-
+        return  new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
+        Glide.with(context).load(workShopDetails.get(i).getImage()).into(myViewHolder.workshopImage);
+        Glide.with(context).load(workShopDetails.get(i).getImage()).into(myViewHolder.departmentImage);
+        myViewHolder.title.setText(workShopDetails.get(i).getTitle());
+        myViewHolder.date.setText(workShopDetails.get(i).getDate());
+        myViewHolder.postingDate.setText(workShopDetails.get(i).getDate());
+        myViewHolder.dpartment_name.setText(workShopDetails.get(i).getDepartment());
+
         myViewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,workshop_expanded.class);
-                intent.putExtra("courseArrayList",courseArrayList);
+                intent.putExtra("department",workShopDetails.get(i));
                 context.startActivity(intent);
             }
         });
+
+
     }
 
     @Override
     public int getItemCount() {
-        return courseArrayList.size();
+        return workShopDetails.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout constraintLayout;
         ImageView workshopImage;
@@ -60,7 +69,7 @@ public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.My
         TextView title;
         TextView postingDate;
         TextView date;
-
+        TextView dpartment_name;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             constraintLayout = itemView.findViewById(R.id.constraintLayout);
@@ -69,7 +78,7 @@ public class CourseCardAdapter extends RecyclerView.Adapter<CourseCardAdapter.My
             title = itemView.findViewById(R.id.title);
             postingDate = itemView.findViewById(R.id.postingDate);
             date = itemView.findViewById(R.id.date);
-            
+            dpartment_name = itemView.findViewById(R.id.departmentName);
         }
     }
 }

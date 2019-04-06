@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:layout_marginRight="2dp"
-    android:background="@color/colorAccent"
     app:cardBackgroundColor="@color/colorAccent">
 
     <android.support.v7.widget.CardView
@@ -25,16 +24,13 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/NameTop"
+                android:id="@+id/user_profile_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="Abdualziz"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,16 +45,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Profile"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/NameTop"
-                app:layout_constraintTop_toBottomOf="@+id/NameTop"
+                app:layout_constraintStart_toStartOf="@+id/user_profile_name"
+                app:layout_constraintTop_toBottomOf="@+id/user_profile_name"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -67,10 +62,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Account settings"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,10 +79,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="Log out"
-                android:textColor="@color/design_default_color_primary_dark"
+                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:srcCompat="@drawable/ic_account_circle_dark_24dp" />
         </android.support.v7.widget.CardView>
 
     </android.support.v7.widget.CardView>

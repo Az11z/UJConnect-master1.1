@@ -67,7 +67,11 @@
                         app:layout_constraintHorizontal_bias="0.958"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_person" />
+                        app:srcCompat="@drawable/ic_person">
+
+
+
+                    </include>
 
 
                 </android.support.constraint.ConstraintLayout>
@@ -77,26 +81,55 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_department_page" />
+    <include
+        android:id="@+id/include4"
+        layout="@layout/content_department_page" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/follow_icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/follow300x"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
-
-    <ImageView
-        android:id="@+id/dep_icon"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:src="@drawable/fcit_logo"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|center"
-        app:srcCompat="@drawable/fcit_logo"
+        app:maxImageSize="58dp" />
 
-        />
+    <ImageView
+        android:id="@+id/add_news_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        app:layout_anchor="@+id/include4"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/ic_news_button" />
+
+    <ImageView
+        android:id="@+id/add_event_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        app:layout_anchor="@+id/include4"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/ic_event_button" />
+
+    <ImageView
+        android:id="@+id/add_workshops_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        app:layout_anchor="@+id/include4"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/ic_workshop_button" />
+
+    <ImageView
+        android:id="@+id/add_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="16dp"
+        android:scaleType="fitXY"
+        app:layout_anchor="@+id/include4"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/ic_add_button" />
 
 </android.support.design.widget.CoordinatorLayout>

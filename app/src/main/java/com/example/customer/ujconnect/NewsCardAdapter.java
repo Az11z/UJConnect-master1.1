@@ -42,6 +42,7 @@ public class NewsCardAdapter extends RecyclerView.Adapter<NewsCardAdapter.MyView
         myViewHolder.time.setText(viewCardObjectList.get(i).getTime());
         myViewHolder.imageView.setImageResource(R.drawable.fcit_logo);
 
+
     }
 
     @Override

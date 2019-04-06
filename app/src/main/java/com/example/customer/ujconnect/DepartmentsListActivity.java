@@ -147,7 +147,7 @@ public class DepartmentsListActivity extends AppCompatActivity
         DepartmentIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,DepartmentsListActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,DepartmentsListActivity.class));
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -156,7 +156,7 @@ public class DepartmentsListActivity extends AppCompatActivity
         ujlogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                startActivity(new Intent(context,MainActivity.class));
                 drawer.closeDrawer(GravityCompat.START);
 
             }
@@ -168,6 +168,16 @@ public class DepartmentsListActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(context,MainActivity.class);
                 intent.putExtra("type","courses");
+                context.startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        ImageView news = findViewById(R.id.news_menu_icon);
+        news.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity.class);
                 context.startActivity(intent);
                 drawer.closeDrawer(GravityCompat.START);
             }
