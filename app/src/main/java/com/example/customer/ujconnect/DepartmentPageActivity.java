@@ -33,6 +33,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -122,7 +123,7 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
         database = FirebaseDatabase.getInstance();
 
-//        myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep"));
+        myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep")).child("tweets");
 
         t = new ArrayList<>();
 
@@ -132,39 +133,63 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         re.setLayoutManager(new LinearLayoutManager(this));
         re.setAdapter(newsCardAdapter);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.child("department_firebase_id").getValue(String.class);
+                FirebaseDatabase.getInstance().getReference("Department").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        dep = dataSnapshot.child("department_name").getValue(String.class);
+                       FirebaseDatabase.getInstance().getReference("Tweets").child("department").child(dep).addChildEventListener(new ChildEventListener() {
+                           @Override
+                           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                               ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
+                               t.add(0,x);
+                               newsCardAdapter.notifyDataSetChanged();
+
+                           }
+
+                           @Override
+                           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                           }
+
+                           @Override
+                           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                           }
+
+                           @Override
+                           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                           }
+
+                           @Override
+                           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                           }
+                       });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
-
-//        myRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
-//                    t.add(0,x);
-//                    newsCardAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
 
         ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);
