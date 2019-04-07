@@ -67,6 +67,7 @@ public class workshop_expanded extends AppCompatActivity {
 
 
         workShopDetails = getIntent().getParcelableExtra("department");
+        if(workShopDetails!=null){
 
                 firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -199,36 +200,36 @@ public class workshop_expanded extends AppCompatActivity {
 
 
 
-        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]).child("Certificates").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    String key = dataSnapshot1.getKey();
-                    System.out.println(key);
-                    System.out.println(workShopDetails.getFirebase_id());
-                    if(key.equals(workShopDetails.getFirebase_id())){
-                        c_image.setImageResource(R.drawable.ic_active_award);
-                        c_image.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                System.out.println(FirebaseStorage.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]).child(workShopDetails.getTitle()+".pdf").getDownloadUrl());
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
+//        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]).child("Certificates").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+//                    String key = dataSnapshot1.getKey();
+//                    System.out.println(key);
+//                    System.out.println(workShopDetails.getFirebase_id());
+//                    if(key.equals(workShopDetails.getFirebase_id())){
+//                        c_image.setImageResource(R.drawable.ic_active_award);
+//                        c_image.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                System.out.println(FirebaseStorage.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getEmail().split("@")[0]).child(workShopDetails.getTitle()+".pdf").getDownloadUrl());
+//
+//                            }
+//                        });
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 
+
+       }
     }
 
 }

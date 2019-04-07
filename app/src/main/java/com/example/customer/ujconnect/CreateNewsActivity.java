@@ -16,8 +16,13 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,6 +36,7 @@ public class CreateNewsActivity extends AppCompatActivity {
     ImageView dep_icon;
     String formattedDate;
     Context context;
+    String dep;
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -73,15 +79,46 @@ public class CreateNewsActivity extends AppCompatActivity {
 
 
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        SubmitNews.setOnClickListener(new View.OnClickListener() {
+        FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                myRef = database.getReference("Tweets").child("department").child("test").child(database.getReference().push().getKey());
-                myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
-                finish();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.child("department_firebase_id").getValue(String.class);
+                FirebaseDatabase.getInstance().getReference("Department").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren()){
+                            dep = dataSnapshot1.child("department_name").getValue(String.class);
+                        }
+                        SubmitNews.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                myRef = database.getReference("Tweets").child("department").child(dep).child("tweets");
+                                String x = myRef.push().getKey();
+                                myRef= myRef.child(x);
+                                myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
+                                database.getReference("Tweets").child("department").child("all").child(x).setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
+
+                                finish();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
 
 
         ImageView drop_down = findViewById(R.id.blue_arrow_drop_down);

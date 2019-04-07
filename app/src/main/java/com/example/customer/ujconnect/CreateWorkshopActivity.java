@@ -243,6 +243,7 @@ public class CreateWorkshopActivity extends AppCompatActivity {
                     workShopDetails.setTime(time.getText().toString());
                     workShopDetails.setDean(deane);
                     workShopDetails.setDepartment(departmente);
+                    workShopDetails.setFirebase_id(firebase_department_id);
                     databaseReference.setValue(workShopDetails);
                     finish();
                 }
