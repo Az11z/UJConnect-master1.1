@@ -100,6 +100,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
+        android:visibility="visible"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_news_button" />
@@ -109,6 +110,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
+        android:visibility="visible"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_event_button" />
@@ -118,6 +120,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
+        android:visibility="visible"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_workshop_button" />
@@ -128,6 +131,7 @@
         android:layout_height="60dp"
         android:layout_margin="16dp"
         android:scaleType="fitXY"
+        android:visibility="visible"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_add_button" />

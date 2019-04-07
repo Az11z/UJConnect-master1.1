@@ -16,13 +16,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,11 +43,20 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
     NewsCardAdapter newsCardAdapter;
     FrameLayout frameLayout;
 
+    FirebaseAuth firebaseAuth;
+    String userId;
+    TextView textView;
+
     ImageView add_button;
     ImageView add_news ;
     ImageView add_event ;
     ImageView add_workshops;
     Context context;
+
+
+
+
+
     int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +86,6 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
 
         ImageView imageView=  findViewById(R.id.close_icon);
-
-
-
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +168,8 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
 
 
+
+
         // MY Menu Start from here , got it :)
 
         ImageView DepartmentIcon = findViewById(R.id.DepartmentIcon);
@@ -217,7 +228,36 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
 
 
+        userId = firebaseAuth.getInstance().getCurrentUser().getUid();
+        textView = findViewById(R.id.user_profile_name);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //here is your every post
+                    String key = snapshot.getKey();
+                    String userId1 = String.valueOf(dataSnapshot.child(key).child("firebase_id").getValue());
 
+                    if (userId1.equals(userId)){
+                        String username = String.valueOf(dataSnapshot.child(key).child("name").getValue());
+                        textView.setText(username);
+
+                    }
+
+                    Log.d("KEY HERE", key);
+                    Log.d("VALUE HERE", userId);
+                    Log.d("VALUE FIREBASE", userId1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
          add_button = findViewById(R.id.add_button);
          add_news = findViewById(R.id.add_news_button);

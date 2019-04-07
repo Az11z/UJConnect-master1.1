@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +41,11 @@ public class DepartmentsListActivity extends AppCompatActivity
     RecyclerView Dep_view;
     DepartmentCardAdapter Dep_adapter;
     FrameLayout frameLayout;
+    FirebaseDatabase database;
+
+    FirebaseAuth firebaseAuth;
+    String userId;
+    TextView textView;
 
     Context context;
     @Override
@@ -70,7 +77,7 @@ public class DepartmentsListActivity extends AppCompatActivity
 
         final ArrayList <DepartmentCardView> departmentCardView = new ArrayList<>();
 
-        final FirebaseDatabase database;
+
         DatabaseReference myRef;
 
         database = FirebaseDatabase.getInstance();
@@ -107,12 +114,43 @@ public class DepartmentsListActivity extends AppCompatActivity
         ImageView imageView=  findViewById(R.id.close_icon);
 
 
-
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
+
+        userId = firebaseAuth.getInstance().getCurrentUser().getUid();
+        textView = findViewById(R.id.user_profile_name);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //here is your every post
+                    String key = snapshot.getKey();
+                    String userId1 = String.valueOf(dataSnapshot.child(key).child("firebase_id").getValue());
+
+                    if (userId1.equals(userId)){
+                        String username = String.valueOf(dataSnapshot.child(key).child("name").getValue());
+                        textView.setText(username);
+
+                    }
+
+                    Log.d("KEY HERE", key);
+                    Log.d("VALUE HERE", userId);
+                    Log.d("VALUE FIREBASE", userId1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
 
