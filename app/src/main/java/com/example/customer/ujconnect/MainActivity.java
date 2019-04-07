@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -53,11 +54,8 @@ public class MainActivity extends AppCompatActivity
     WorkshopsAdapter workshopsAdapter;
     FrameLayout frameLayout;
     FirebaseAuth firebaseAuth;
-
-
-
-
-
+    String userId;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +66,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-
-
-
         context = this;
 
 
@@ -87,6 +81,36 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        userId = firebaseAuth.getInstance().getCurrentUser().getUid();
+        textView = findViewById(R.id.user_profile_name);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //here is your every post
+                    String key = snapshot.getKey();
+                    String userId1 = String.valueOf(dataSnapshot.child(key).child("firebase_id").getValue());
+
+                    if (userId1.equals(userId)){
+                        String username = String.valueOf(dataSnapshot.child(key).child("name").getValue());
+                        textView.setText(username);
+
+                    }
+
+                    Log.d("KEY HERE", key);
+                    Log.d("VALUE HERE", userId);
+                    Log.d("VALUE FIREBASE", userId1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         t = new ArrayList<>();
@@ -99,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        database = FirebaseDatabase.getInstance();
+
         myRef = database.getReference("Tweets").child("department");
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
