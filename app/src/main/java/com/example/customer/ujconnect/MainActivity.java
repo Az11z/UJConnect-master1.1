@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -53,25 +54,18 @@ public class MainActivity extends AppCompatActivity
     WorkshopsAdapter workshopsAdapter;
     FrameLayout frameLayout;
     FirebaseAuth firebaseAuth;
-
-
-
-
-
+    String userId;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-
-
-
         context = this;
 
 
@@ -86,12 +80,42 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        userId = firebaseAuth.getInstance().getCurrentUser().getUid();
+        textView = findViewById(R.id.user_profile_name);
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    //here is your every post
+                    String key = snapshot.getKey();
+                    String userId1 = String.valueOf(dataSnapshot.child(key).child("firebase_id").getValue());
+
+                    if (userId1.equals(userId)){
+                        String username = String.valueOf(dataSnapshot.child(key).child("name").getValue());
+                        textView.setText(username);
+
+                    }
+
+                    Log.d("KEY HERE", key);
+                    Log.d("VALUE HERE", userId);
+                    Log.d("VALUE FIREBASE", userId1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         t = new ArrayList<>();
@@ -106,6 +130,8 @@ public class MainActivity extends AppCompatActivity
 
 
         database = FirebaseDatabase.getInstance();
+
+
         myRef = database.getReference("Tweets").child("department");
 
         myRef.addChildEventListener(new ChildEventListener() {
@@ -175,6 +201,9 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
+
+       
         ImageView imageView=  findViewById(R.id.close_icon);
 
 
@@ -318,7 +347,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
@@ -347,7 +376,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
 
