@@ -39,6 +39,8 @@ public class DepartmentsListActivity extends AppCompatActivity
     RecyclerView Dep_view;
     DepartmentCardAdapter Dep_adapter;
     FrameLayout frameLayout;
+    ArrayList <DepartmentCardView> departmentCardView;
+    FirebaseDatabase database;
 
     Context context;
     @Override
@@ -68,9 +70,9 @@ public class DepartmentsListActivity extends AppCompatActivity
         navigationView.getLayoutParams().width = size.x;
 
 
-        final ArrayList <DepartmentCardView> departmentCardView = new ArrayList<>();
+        departmentCardView = new ArrayList<>();
 
-        final FirebaseDatabase database;
+
         DatabaseReference myRef;
 
         database = FirebaseDatabase.getInstance();

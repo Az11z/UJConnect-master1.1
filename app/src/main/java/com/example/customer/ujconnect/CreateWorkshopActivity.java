@@ -152,6 +152,8 @@ public class CreateWorkshopActivity extends AppCompatActivity {
             }
         });
 
+
+        // this code was copied from https://stackoverflow.com/a/38352844
         add_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity
         Display display = getWindowManager(). getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView.getLayoutParams().width = size.x;
+
 
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -99,8 +104,10 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("Tweets").child("department");
+
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot1, @Nullable String s) {
@@ -167,10 +174,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        navigationView.getLayoutParams().width = size.x;
 
         ImageView imageView=  findViewById(R.id.close_icon);
 

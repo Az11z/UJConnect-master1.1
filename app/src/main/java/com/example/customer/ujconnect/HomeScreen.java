@@ -61,6 +61,7 @@ public class HomeScreen extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -224,12 +225,7 @@ else
 
                             User user = new User(Name, Email,PhoneNumber,formattedDate,false);
                             user.setFirebase_id(Curruser.getUid());
-
                             mDatabase.child("users").child(Email.split("@")[0]).setValue(user);
-
-
-
-
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -259,10 +255,10 @@ else
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.child("admin").getValue(boolean.class)){
-                        admin = true;
-                    }
-
+                    admin = true;
                 }
+
+            }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -287,7 +283,9 @@ else
         builder.setView(view)
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) { }})
+                    public void onClick(DialogInterface dialogInterface, int i) { }}
+
+                    )
                 .setPositiveButton("login", new DialogInterface.OnClickListener() {
 
 
@@ -317,30 +315,9 @@ else
 
                                             String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-                                            DatabaseReference uidRef = rootRef.child("users").child(uid);
-                                            ValueEventListener eventListener = new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                                    String Username = dataSnapshot.child("name").getValue(String.class);
-                                                }
-
-                                                @Override
-                                                public void onCancelled(DatabaseError databaseError) {}
-                                            };
-                                            uidRef.addListenerForSingleValueEvent(eventListener);
-
-
-
-
-
-
-
-
                                            // Toast.makeText(HomeScreen.this, Username, Toast.LENGTH_SHORT).show();
                                             if(user.isEmailVerified()){
                                                 updateUI(user);
-
                                             }
 
 
