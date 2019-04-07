@@ -10,13 +10,11 @@
 
     <ImageView
         android:id="@+id/ujclogo"
-        android:layout_width="100dp"
-        android:layout_height="118dp"
+        android:layout_width="89dp"
+        android:layout_height="119dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,20 +25,18 @@
 
     <ImageView
         android:id="@+id/ujlogo"
-        android:layout_width="78dp"
-        android:layout_height="92dp"
+        android:layout_width="69dp"
+        android:layout_height="78dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.983"
-        app:srcCompat="@drawable/ujlogo" />
+        app:srcCompat="@drawable/ic_ujwhitelogo" />
 
     <Button
         android:id="@+id/connect"
