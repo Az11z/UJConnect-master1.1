@@ -2,6 +2,7 @@ package com.example.customer.ujconnect;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +59,8 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
     ImageView add_event ;
     ImageView add_workshops;
     Context context;
-
+    Intent intent;
+    ImageView inside_fab;
 
 
 
@@ -63,10 +71,25 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling_department_page);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        inside_fab = findViewById(R.id.dep_image);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         context = this;
-        final Intent intent  = getIntent();
+        intent  = getIntent();
+        DepartmentCardView departmentCardView = intent.getParcelableExtra("dep");
+
+
+
+
+        Glide.with(this)
+                .asBitmap()
+                .load(departmentCardView.getImage())
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        inside_fab.setImageBitmap(resource);
+                    }
+                });
 
 
 
@@ -164,6 +187,42 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         });
 
 
+        //profile items VVVVVVVV
+
+        TextView profile = findViewById(R.id.profile_menu_item);
+        TextView accountSettings = findViewById(R.id.account_settings_menu_item);
+        TextView logout = findViewById(R.id.log_out_menu_item);
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserProfileActivity.class));
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance().signOut(context).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(context,HomeScreen.class));
+                        finish();
+                    }
+                });
+            }
+
+        });
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
+        //end of profile items ^^^^^^
+
 
 
 
@@ -214,16 +273,7 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
         //My Menu End here , now i get it :)
 
 
-        FloatingActionButton floatingActionButton = findViewById(R.id.follow_icon);
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(context,CreateNewsActivity.class);
-                intent1.putExtra("dep",intent.getStringExtra("dep"));
-                intent1.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                startActivity(intent1);
-            }
-        });
+
 
 
 
@@ -246,10 +296,6 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
                     }
 
-                    Log.d("KEY HERE", key);
-                    Log.d("VALUE HERE", userId);
-                    Log.d("VALUE FIREBASE", userId1);
-
                 }
             }
 
@@ -259,49 +305,74 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
             }
         });
 
-         add_button = findViewById(R.id.add_button);
-         add_news = findViewById(R.id.add_news_button);
-         add_event = findViewById(R.id.add_event_button);
-         add_workshops = findViewById(R.id.add_workshops_button);
+        if(HomeScreen.admin) {
 
-        add_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (count == 0) {
-                    add_news.animate().translationX(-250).start();
-                    add_event.animate().translationX(-500).start();
-                    add_workshops.animate().translationX(-750).start();
-                    add_button.setImageResource(R.drawable.ic_cancel_button);
-                    count++;
+
+            add_button = findViewById(R.id.add_button);
+            add_news = findViewById(R.id.add_news_button);
+            add_event = findViewById(R.id.add_event_button);
+            add_workshops = findViewById(R.id.add_workshops_button);
+
+            add_button.setVisibility(View.VISIBLE);
+            add_news.setVisibility(View.VISIBLE);
+            add_event.setVisibility(View.VISIBLE);
+            add_workshops.setVisibility(View.VISIBLE);
+
+
+            add_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (count == 0) {
+                        add_news.animate().translationX(-250).start();
+                        add_event.animate().translationX(-500).start();
+                        add_workshops.animate().translationX(-750).start();
+                        add_button.setImageResource(R.drawable.ic_cancel_button);
+                        count++;
+                    } else {
+                        add_news.animate().translationX(0).start();
+                        add_event.animate().translationX(0).start();
+                        add_workshops.animate().translationX(0).start();
+                        add_button.setImageResource(R.drawable.ic_add_button);
+                        count = 0;
+                    }
                 }
-                else{
+            });
+
+            add_news.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     add_news.animate().translationX(0).start();
                     add_event.animate().translationX(0).start();
-                    add_workshops.animate().translationX(0).start();
-                    add_button.setImageResource(R.drawable.ic_add_button);
-                    count=0;
+                    add_workshops.animate().translationX(0).withStartAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            add_button.setImageResource(R.drawable.ic_add_button);
+                            count = 0;
+                            startActivity(new Intent(context, CreateNewsActivity.class));
+                        }
+                    });
+
+
                 }
-            }
-        });
+            });
 
-        add_news.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_news.animate().translationX(0).start();
-                add_event.animate().translationX(0).start();
-                add_workshops.animate().translationX(0).withStartAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        add_button.setImageResource(R.drawable.ic_add_button);
-                        count=0;
-                        startActivity(new Intent(context,CreateNewsActivity.class));
-                    }
-                });
+            add_workshops.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    add_news.animate().translationX(0).start();
+                    add_event.animate().translationX(0).start();
+                    add_workshops.animate().translationX(0).withStartAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            add_button.setImageResource(R.drawable.ic_add_button);
+                            count = 0;
+                            startActivity(new Intent(context, CreateWorkshopActivity.class));
+                        }
+                    });
 
-
-            }
-        });
-
+                }
+            });
+        }
 
     }
 

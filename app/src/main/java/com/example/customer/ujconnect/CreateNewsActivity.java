@@ -1,6 +1,8 @@
 package com.example.customer.ujconnect;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +30,7 @@ public class CreateNewsActivity extends AppCompatActivity {
     TextView dep_name;
     ImageView dep_icon;
     String formattedDate;
+    Context context;
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -37,7 +43,7 @@ public class CreateNewsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_news);
-
+        context = this;
          intent  = getIntent();
 
         WriteNews = findViewById(R.id.WriteNews);
@@ -106,6 +112,42 @@ public class CreateNewsActivity extends AppCompatActivity {
                 });
             }
         });
+
+        //profile items VVVVVVVV
+
+        TextView profile = findViewById(R.id.profile_menu_item);
+        TextView accountSettings = findViewById(R.id.account_settings_menu_item);
+        TextView logout = findViewById(R.id.log_out_menu_item);
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserProfileActivity.class));
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance().signOut(context).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(context,HomeScreen.class));
+                        finish();
+                    }
+                });
+            }
+
+        });
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
+        //end of profile items ^^^^^^
 
 
 

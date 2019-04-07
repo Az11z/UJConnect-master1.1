@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     String userId;
     TextView textView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,16 +133,15 @@ public class MainActivity extends AppCompatActivity
         database = FirebaseDatabase.getInstance();
 
 
-        myRef = database.getReference("Tweets").child("department");
-
+        myRef = database.getReference("Tweets").child("department").child("all");
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot1, @Nullable String s) {
-                    for(DataSnapshot snapshot : snapshot1.getChildren()) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+
                         ViewCardObject viewCardObject = snapshot.getValue(ViewCardObject.class);
                         t.add(viewCardObject);
                         newsCardAdapter.notifyDataSetChanged();
-                    }
+
             }
 
             @Override
@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-       
+
         ImageView imageView=  findViewById(R.id.close_icon);
 
 
@@ -305,9 +305,41 @@ public class MainActivity extends AppCompatActivity
         workshop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                workShopDetails.clear();
                 re.setAdapter(workshopsAdapter);
                 workshopsAdapter.notifyDataSetChanged();
                 drawer.closeDrawer(GravityCompat.START);
+                myRef = database.getReference("Workshops").child("department");
+                myRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+                        WorkShopDetails workShopDetails1 = snapshot.getValue(WorkShopDetails.class);
+                        System.out.println(workShopDetails1.getTitle());
+                        workShopDetails.add(workShopDetails1);
+                        workshopsAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
         ImageView ujMenuIcon = findViewById(R.id.uj_menu_icon);
@@ -322,8 +354,40 @@ public class MainActivity extends AppCompatActivity
         newsMenuIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                t.clear();
                 re.setAdapter(newsCardAdapter);
                 drawer.closeDrawer(GravityCompat.START);
+                myRef = database.getReference("Tweets").child("department").child("all");
+                myRef.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+
+                        ViewCardObject viewCardObject = snapshot.getValue(ViewCardObject.class);
+                        t.add(viewCardObject);
+                        newsCardAdapter.notifyDataSetChanged();
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 

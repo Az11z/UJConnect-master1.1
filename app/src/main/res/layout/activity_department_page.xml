@@ -86,21 +86,23 @@
         layout="@layout/content_department_page" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/follow_icon"
+        android:id="@+id/dep_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/fcit_logo"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|center"
-        app:maxImageSize="58dp" />
+        app:maxImageSize="58dp">
+
+
+    </android.support.design.widget.FloatingActionButton>
 
     <ImageView
         android:id="@+id/add_news_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_news_button" />
@@ -110,7 +112,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_event_button" />
@@ -120,7 +122,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_workshop_button" />
@@ -131,7 +133,7 @@
         android:layout_height="60dp"
         android:layout_margin="16dp"
         android:scaleType="fitXY"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_anchor="@+id/include4"
         app:layout_anchorGravity="right|bottom"
         app:srcCompat="@drawable/ic_add_button" />

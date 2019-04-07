@@ -25,7 +25,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -105,8 +109,15 @@ public class DepartmentsListActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    departmentCardView.add(new DepartmentCardView(R.drawable.ujcpitlogo,snapshot.getKey()));
-                    Dep_adapter.notifyDataSetChanged();
+                    String key = snapshot.getKey();
+                    if(key.equals("all")){
+                       continue;
+                    }else {
+                        DepartmentCardView departmentCardViewe = snapshot.getValue(DepartmentCardView.class);
+                        System.out.println(departmentCardViewe.getDepartment_name()+" "+departmentCardViewe.getImage());
+                        departmentCardView.add(departmentCardViewe);
+                        Dep_adapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -132,26 +143,13 @@ public class DepartmentsListActivity extends AppCompatActivity
 
         userId = firebaseAuth.getInstance().getCurrentUser().getUid();
         textView = findViewById(R.id.user_profile_name);
-
-        myRef = database.getReference("users");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    //here is your every post
-                    String key = snapshot.getKey();
-                    String userId1 = String.valueOf(dataSnapshot.child(key).child("firebase_id").getValue());
-
-                    if (userId1.equals(userId)){
-                        String username = String.valueOf(dataSnapshot.child(key).child("name").getValue());
-                        textView.setText(username);
-
-                    }
-
-                    Log.d("KEY HERE", key);
-                    Log.d("VALUE HERE", userId);
-                    Log.d("VALUE FIREBASE", userId1);
-
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    String name  = dataSnapshot1.child("name").getValue(String.class);
+                    textView.setText(name);
                 }
             }
 
@@ -160,6 +158,7 @@ public class DepartmentsListActivity extends AppCompatActivity
 
             }
         });
+
 
 
 
@@ -181,6 +180,43 @@ public class DepartmentsListActivity extends AppCompatActivity
                 frameLayout.setVisibility(View.GONE);
             }
         });
+
+
+        //profile items VVVVVVVV
+
+        TextView profile = findViewById(R.id.profile_menu_item);
+        TextView accountSettings = findViewById(R.id.account_settings_menu_item);
+        TextView logout = findViewById(R.id.log_out_menu_item);
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserProfileActivity.class));
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance().signOut(context).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(context,HomeScreen.class));
+                        finish();
+                    }
+                });
+            }
+
+        });
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
+        //end of profile items ^^^^^^
 
 
 

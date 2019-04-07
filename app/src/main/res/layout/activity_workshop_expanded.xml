@@ -228,7 +228,7 @@
                 tools:ignore="ContentDescription" />
 
             <ImageView
-                android:id="@+id/textView5"
+                android:id="@+id/cer_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="32dp"

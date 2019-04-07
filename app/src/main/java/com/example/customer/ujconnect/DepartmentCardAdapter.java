@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DepartmentCardAdapter extends RecyclerView.Adapter<DepartmentCardAdapter.MyViewHolder> {
@@ -35,16 +37,15 @@ public class DepartmentCardAdapter extends RecyclerView.Adapter<DepartmentCardAd
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
 
-        myViewHolder.DepIcon.setImageResource(departmentCardViews.get(i).getDep_icon());
-        myViewHolder.DepTitle.setText(departmentCardViews.get(i).getDep_title());
+        Glide.with(context).load(departmentCardViews.get(i).getImage()).into(myViewHolder.DepIcon);
+        myViewHolder.DepTitle.setText(departmentCardViews.get(i).getDepartment_name());
 
 
         myViewHolder.Dep_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,DepartmentPageActivity.class);
-                intent.putExtra("dep",myViewHolder.DepTitle.getText());
-                intent.addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                intent.putExtra("dep",departmentCardViews.get(i));
                 context.startActivity(intent);
             }
         });

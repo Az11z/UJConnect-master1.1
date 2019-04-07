@@ -3,6 +3,7 @@ package com.example.customer.ujconnect;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -20,12 +21,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -58,7 +66,10 @@ public class CreateWorkshopActivity extends AppCompatActivity {
     WorkShopDetails workShopDetails;
     ImageView add_image;
     StorageReference storageReference;
-
+    Context context;
+    String deane;
+    String departmente;
+    String firebase_department_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +85,44 @@ public class CreateWorkshopActivity extends AppCompatActivity {
         add_image = findViewById(R.id.add_image_button);
         workshopImage = findViewById(R.id.workshop_image);
         workShopDetails = new WorkShopDetails();
+        context = this;
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                    firebase_department_id = dataSnapshot.child("department_firebase_id").getValue(String.class);
+
+
+
+                FirebaseDatabase.getInstance().getReference("Department").child(firebase_department_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            System.out.println(dataSnapshot1);
+                            deane = dataSnapshot1.child("admin_name").getValue(String.class);
+                            departmente = dataSnapshot1.child("department_name").getValue(String.class);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
         time.setOnClickListener(new View.OnClickListener() {
@@ -131,24 +180,75 @@ public class CreateWorkshopActivity extends AppCompatActivity {
         });
 
 
+        //profile items VVVVVVVV
+
+        TextView profile = findViewById(R.id.profile_menu_item);
+        TextView accountSettings = findViewById(R.id.account_settings_menu_item);
+        TextView logout = findViewById(R.id.log_out_menu_item);
+
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserProfileActivity.class));
+                frameLayout.setVisibility(View.GONE);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AuthUI.getInstance().signOut(context).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        startActivity(new Intent(context,HomeScreen.class));
+                        finish();
+                    }
+                });
+            }
+
+        });
+        accountSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context,UserSettingsActivity.class));
+            }
+        });
+        //end of profile items ^^^^^^
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Workshops").child("department").push();
         String x = databaseReference.getKey();
-        storageReference = FirebaseStorage.getInstance().getReference("Workshops").child("/department").child("/"+x);
+        storageReference = FirebaseStorage.getInstance().getReference("Workshops").child("department").child( x);
 
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                workShopDetails.setTitle(title.getText().toString());
-                workShopDetails.setDescription(description.getText().toString());
-                workShopDetails.setDate(date.getText().toString());
-                workShopDetails.setLocation(location.getText().toString());
-                workShopDetails.setInstructor(instructor.getText().toString());
-                workShopDetails.setDuration(duration.getText().toString());
-                workShopDetails.setTime(time.getText().toString());
-                workShopDetails.setDean("Dean Name");
-                workShopDetails.setDepartment("CS");
-                databaseReference.setValue(workShopDetails);
+                String titlee = title.getText().toString();
+                String descriptione = description.getText().toString();
+                String datee = date.getText().toString();
+                String locatione = location.getText().toString();
+                String instructore = instructor.getText().toString();
+                String timee = time.getText().toString();
+                if (!titlee.isEmpty()      && !descriptione.isEmpty() &&
+                    !datee.isEmpty()       && !locatione.isEmpty() &&
+                    !instructore.isEmpty() && !timee.isEmpty()){
+                    workShopDetails.setTitle(titlee);
+                    workShopDetails.setDescription(descriptione);
+                    workShopDetails.setDate(datee);
+                    workShopDetails.setLocation(locatione);
+                    workShopDetails.setInstructor(instructore);
+                    workShopDetails.setDuration(timee);
+                    workShopDetails.setTime(time.getText().toString());
+                    workShopDetails.setDean(deane);
+                    workShopDetails.setDepartment(departmente);
+                    databaseReference.setValue(workShopDetails);
+                    finish();
+                }
+                else{
+                    Toast.makeText(CreateWorkshopActivity.this, "Please fill all the information", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

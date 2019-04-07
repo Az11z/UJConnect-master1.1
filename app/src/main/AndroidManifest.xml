@@ -18,9 +18,7 @@
         <activity android:name=".CreateWorkshopActivity">
 
         </activity>
-        <activity android:name=".AttendenceActivity">
 
-        </activity>
         <activity
             android:name=".UserSettingsActivity"
             android:launchMode="singleTask"
@@ -72,6 +70,13 @@
             android:name=".CreateNewsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AttendenceActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
     </application>
+
 
 </manifest>
