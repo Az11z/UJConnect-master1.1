@@ -71,7 +71,7 @@ public class CreateNewsActivity extends AppCompatActivity {
         SubmitNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRef = database.getReference("Tweets").child("department").child().child(database.getReference().push().getKey());
+                myRef = database.getReference("Tweets").child("department").child("test").child(database.getReference().push().getKey());
                 myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
                 finish();
             }
