@@ -52,7 +52,7 @@ public class AttendenceAdapter extends RecyclerView.Adapter<AttendenceAdapter.My
                     certificate.setDean(workShopDetails.getDean());
                     certificate.setDep(workShopDetails.getDepartment());
                     certificate.setId(workShopDetails.getFirebase_id());
-                    certificate.setHours(workShopDetails.getTime());
+                    certificate.setHours(workShopDetails.getDuration());
                     certificate.setName(userArrayList.get(i).getName());
                     certificate.setInstructor(workShopDetails.getInstructor());
                     certificate.setLocation(workShopDetails.getLocation());
