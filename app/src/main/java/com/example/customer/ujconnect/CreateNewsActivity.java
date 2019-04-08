@@ -80,42 +80,40 @@ public class CreateNewsActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.child("department_firebase_id").getValue(String.class);
-               FirebaseDatabase.getInstance().getReference("Department").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                       dep = dataSnapshot.child("department_name").getValue(String.class);
-                       SubmitNews.setOnClickListener(new View.OnClickListener() {
-                           @Override
-                           public void onClick(View v) {
-                               myRef = database.getReference("Tweets").child("department").child(dep);
-                               String x = myRef.push().getKey();
-                               myRef= myRef.child(x);
-                               myRef.setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
-                               database.getReference("Tweets").child("department").child("all").child(x).setValue(new ViewCardObject(WriteNews.getText().toString(),"test",formattedDate,"0",3));
+               @Override
+               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                   String key = dataSnapshot.child("department_firebase_id").getValue(String.class);
+                   FirebaseDatabase.getInstance().getReference("Department").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           dep = dataSnapshot.child("department_name").getValue(String.class);
+                           SubmitNews.setOnClickListener(new View.OnClickListener() {
+                               @Override
+                               public void onClick(View v) {
+                                   myRef = database.getReference("Tweets").child("department").child(dep);
+                                   String x = myRef.push().getKey();
+                                   myRef = myRef.child(x);
+                                   myRef.setValue(new ViewCardObject(WriteNews.getText().toString(), "test", formattedDate, "0", 3));
+                                   database.getReference("Tweets").child("department").child("all").child(x).setValue(new ViewCardObject(WriteNews.getText().toString(), "test", formattedDate, "0", 3));
 
-                               finish();
-                           }
-                       });
+                                   finish();
+                               }
+                           });
 
-                   }
+                       }
 
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError databaseError) {
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                   }
-               });
-            }
+                       }
+                   });
+               }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
 
 
 
@@ -192,3 +190,6 @@ public class CreateNewsActivity extends AppCompatActivity {
 
     }
 }
+
+
+

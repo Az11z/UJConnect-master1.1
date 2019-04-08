@@ -62,6 +62,7 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
     Context context;
     Intent intent;
     ImageView inside_fab;
+    String dep;
 
 
 
@@ -123,9 +124,11 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
         database = FirebaseDatabase.getInstance();
 
-        myRef = database.getReference("Tweets").child("department").child(intent.getStringExtra("dep")).child("tweets");
+
 
         t = new ArrayList<>();
+
+        DepartmentCardView departmentCardView1 = getIntent().getParcelableExtra("dep");
 
 
         RecyclerView re = findViewById(R.id.dep_cardview);
@@ -135,52 +138,30 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference("Tweets").child("department").child(departmentCardView1.getDepartment_name()).child("tweets").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.child("department_firebase_id").getValue(String.class);
-                FirebaseDatabase.getInstance().getReference("Department").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        dep = dataSnapshot.child("department_name").getValue(String.class);
-                       FirebaseDatabase.getInstance().getReference("Tweets").child("department").child(dep).addChildEventListener(new ChildEventListener() {
-                           @Override
-                           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                System.out.println(dataSnapshot);
+                ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
+                t.add(0,x);
+                newsCardAdapter.notifyDataSetChanged();
 
-                               ViewCardObject x = dataSnapshot.getValue(ViewCardObject.class);
-                               t.add(0,x);
-                               newsCardAdapter.notifyDataSetChanged();
+            }
 
-                           }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                           @Override
-                           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
 
-                           }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-                           @Override
-                           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
 
-                           }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                           @Override
-                           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                           }
-
-                           @Override
-                           public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                           }
-                       });
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
             }
 
             @Override
@@ -188,6 +169,16 @@ public class DepartmentPageActivity extends AppCompatActivity implements Navigat
 
             }
         });
+
+
+
+
+
+
+
+
+
+
 
 
 

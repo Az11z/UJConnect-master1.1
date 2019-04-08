@@ -254,7 +254,7 @@ else
             FirebaseDatabase.getInstance().getReference("users").child(user.getEmail().split("@")[0]).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.child("admin").getValue(boolean.class)){
+                    if(dataSnapshot.child("admin").exists() && dataSnapshot.child("admin").getValue(boolean.class)){
                     admin = true;
                 }
 
